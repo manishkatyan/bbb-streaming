@@ -16,9 +16,9 @@ from datetime import datetime
 downloadProcess = None
 browser = None
 connect_timeout = 5
-wait_time = 15
+wait_time = 10
 click_time = 2
-pageload = 12
+pageload = 11
 
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
