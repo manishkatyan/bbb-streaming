@@ -15,8 +15,10 @@ from datetime import datetime
 
 downloadProcess = None
 browser = None
-selelnium_timeout = 30
 connect_timeout = 5
+wait_time = 15
+click_time = 2
+pageload = 12
 
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
@@ -53,7 +55,7 @@ def set_up():
 	options.add_argument('--kiosk') 
 	options.add_argument('--window-size=1920,1080')
 	options.add_argument('--window-position=0,0')
-	options.add_experimental_option("excludeSwitches", ['enable-automation']);   
+	options.add_experimental_option("excludeSwitches", ['enable-automation']) 
 	options.add_argument('--shm-size=2gb') 
 	options.add_argument('--disable-dev-shm-usage') 
 	options.add_argument('--start-fullscreen')
@@ -79,22 +81,22 @@ def stream_setup():
 		# clicks on listen only option
 		element_listen[0].click()
 		logging.info('clicked on listen only button')
-		time.sleep(15)
+		time.sleep(connect_timeout)
 		# confirmation for click
 		if(browser.find_elements_by_xpath('//button[contains(@aria-label,"Listen only")]')):
 			element_listen[0].click()
-		time.sleep(10)
+		time.sleep(wait_time)
 		element_success=browser.find_elements_by_xpath('//span[contains(@class,"success")]')
 		#checks if modal contains "success" option
 		if(element_success):
 			logging.info('found -success- in modal')
 			element_success[0].click()
-			time.sleep(2)
 			logging.info('clicked on success button')
+			time.sleep(connect_timeout)
 			# confirmation for click
 			if(browser.find_elements_by_xpath('//span[contains(@class,"success")]')):
 				element_success[0].click()
-			time.sleep(15)
+			time.sleep(wait_time)
 		else:
 			logging.info('Not found  -success- modal')
 	# checks if modal contains "success" option
@@ -104,7 +106,7 @@ def stream_setup():
 		if(browser.find_elements_by_xpath('//span[contains(@class,"success")]')):
 			element_success[0].click()
 		logging.info('clicked on success button')
-		time.sleep(15)
+		time.sleep(wait_time)
 	else:
 		logging.info("Success!!. Streaming will be starting now...")
 
@@ -123,8 +125,8 @@ def bbb_browser():
 	logging.info(join_url)
 	browser.get(join_url)
 
-	# waits 10 sec for loading webpage
-	time.sleep(20) 
+	# waits for the webpage
+	time.sleep(pageload) 
 
 	# saves the "Close Join audio modal" in element veriable
 	element = browser.find_elements_by_xpath('//button[contains(@aria-label,"Close Join audio modal")]')
@@ -136,11 +138,11 @@ def bbb_browser():
 		# finds the close button and closes the modal
 		browser.find_elements_by_xpath('//button[contains(@aria-label,"Close Join audio modal")]')[0].click()
 		logging.info('clicked on close button')
-		time.sleep(5)
+		time.sleep(connect_timeout)
 		# finds join button and clicks on that 
 		browser.find_elements_by_xpath('//i[contains(@class,"icon--2q1XXw icon-bbb-audio_off")]')[0].click()
 		logging.info('clicked on audio join button')
-		time.sleep(10)
+		time.sleep(connect_timeout)
 		logging.info('found modal')
 		stream_setup()
 
@@ -150,12 +152,12 @@ def bbb_browser():
 		logging.info('found ReactModal__Overlay')
 		stream_setup()
 	else:
-		time.sleep(20)
+		time.sleep(wait_time)
 		element =browser.find_elements_by_xpath('//button[contains(@aria-label,"Close Join audio modal")]')
 		if(element):
 			browser.find_elements_by_xpath('//button[contains(@aria-label,"Close Join audio modal")]')[0].click()
 			logging.info('click on close button')
-			time.sleep(5)
+			time.sleep(connect_timeout)
 		else:
 			logging.info('Not found ReactModal__Overlay')
 
@@ -167,14 +169,14 @@ def bbb_browser():
 		else:
 			logging.info("could not find 'message-input' ")
 		
-	time.sleep(5)
+	time.sleep(connect_timeout)
 
 	if args.chat:
 		browser.execute_script("document.querySelector('[aria-label=\"User list\"]').parentElement.style.display='none';")
 	else:
 		if( browser.find_elements_by_xpath('//div[contains(@id,"chat-toggle-button")]') and browser.find_elements_by_xpath('//button[contains(@aria-label,"Users and messages toggle")]') ):
 			browser.find_elements_by_xpath('//div[contains(@id,"chat-toggle-button")]')[0].click()
-			time.sleep(2)
+			time.sleep(connect_timeout)
 			browser.find_elements_by_xpath('//button[contains(@aria-label,"Users and messages toggle")]')[0].click()
 		else:
 			logging.info("could not find either 'chat-toggle-button' or 'Users and messages toggle' ")
@@ -182,13 +184,13 @@ def bbb_browser():
 
 	if args.hidePresentation is False:
 		browser.execute_script("document.getElementById('container').setAttribute('style','margin:100px');")
-		time.sleep(2)
+		time.sleep(click_time)
 		browser.execute_script("document.getElementById('container').firstChild.setAttribute('style','height:500px !important');")
-		time.sleep(2)
+		time.sleep(click_time)
 		browser.execute_script("document.getElementById('container').setAttribute('style','padding-top:200px !important');")
-		time.sleep(2)
+		time.sleep(click_time)
 		browser.execute_script("document.querySelector('.react-draggable').style.transform = 'translate(0px,-500px)'")
-		time.sleep(2)
+		time.sleep(click_time)
 
 def create_meeting():
 	create_params = {}
