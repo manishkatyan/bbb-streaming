@@ -1,0 +1,45 @@
+version: '3.3'
+services:
+  bbb-streamer:
+    #image: manishkatyan/bbb-streaming
+    build: .
+    shm_size: '2gb'
+    container_name: bbb-streaming
+    environment:
+      # BigBlueButton Server url:
+      - BBB_URL=https://a11.airlearn.ai/bigbluebutton/api
+      # BigBlueButton secret:
+      - BBB_SECRET=STAQFPFjUzOSEeALBj2ZbBPyX6ECfCmUNjvvWugfuc
+      # BigBlueButton meetingID:
+      - BBB_MEETING_ID=random-9878276
+      # start meeting (optional):
+      - BBB_START_MEETING=false
+      # attendee password (optional - has to be set to the attendee password of moodle/greenlight or any other frontend to allow joining via their links):
+      - BBB_ATTENDEE_PASSWORD=ap
+      # moderator password (optional - has to be set to the moderator password of moodle/greenlight or any other frontend to allow joining via their links):
+      - BBB_MODERATOR_PASSWORD=mp
+      # meeting title (optional):
+      - BBB_MEETING_TITLE=liveStreaming
+      # download / save BigBlueButton meeting
+      - BBB_DOWNLOAD_MEETING=true
+      # play intro file (can be a local file in videodata folder e.g. /video/intro.mp4 or a url of a mediastream e.g. https://my.intro.stream)
+      - BBB_INTRO=false
+      # begin the intro at position (optional, e.g. 00:00:05)
+      - BBB_BEGIN_INTRO_AT=04:40
+      # end intro after (optional, e.g. 01:00:00 - after one hour)
+      - BBB_END_INTRO_AT=
+      # Media server url:
+      - BBB_STREAM_URL=
+      # Stream URL for viewers to watch live video:
+      #- BBB_VIEWER_STREAM_URL=
+      # Timezone (default: Europe/Vienna):
+      - TZ=Europe/Madrid
+      # Hide Presentation - set this as true to show only the video and not the presentation during the webinar
+      - BBB_HIDE_PRESENTATION=false
+      #Hide public chat -set this to true if you want to show chat during the webinar
+      - BBB_SHOW_CHAT=false
+      # Custom CSS to change, for example size of video, using url encoded CSS. URI encode your css here: https://www.urlencoder.org/
+     #- BBB_CUSTOM_CSS=
+
+    volumes:
+      - ./videodata:/video
