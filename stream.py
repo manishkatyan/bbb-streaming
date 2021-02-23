@@ -217,4 +217,3 @@ if downloadProcess:
 	downloadProcess.communicate(input=None)
 if browser:
 	browser.quit()
-
