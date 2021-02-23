@@ -7,11 +7,11 @@ services:
     container_name: bbb-streaming
     environment:
       # BigBlueButton Server url:
-      - BBB_URL=https://a11.airlearn.ai/bigbluebutton/api
+      - BBB_URL=
       # BigBlueButton secret:
-      - BBB_SECRET=STAQFPFjUzOSEeALBj2ZbBPyX6ECfCmUNjvvWugfuc
+      - BBB_SECRET=
       # BigBlueButton meetingID:
-      - BBB_MEETING_ID=random-9878276
+      - BBB_MEETING_ID=
       # start meeting (optional):
       - BBB_START_MEETING=false
       # attendee password (optional - has to be set to the attendee password of moodle/greenlight or any other frontend to allow joining via their links):
