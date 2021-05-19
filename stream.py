@@ -93,7 +93,7 @@ def bbb_browser():
 		element = browser.find_element_by_id('message-input')
 		chat_send = browser.find_elements_by_css_selector('[aria-label="Send message"]')[0]
         # ensure chat is enabled (might be locked by moderator)
-		if element.is_enabled() and chat_send.is_enabled():
+		if element.is_enabled() and chat_send.is_enabled() and args.viewerURL:
 			element.send_keys("This meeting is streamed to: %s" % args.viewerURL)
 			chat_send.click()
 		
@@ -119,10 +119,10 @@ def bbb_browser():
 	browser.execute_script("document.querySelector('[aria-label=\"Actions bar\"]').style.display='none';")
 	browser.execute_script("document.getElementById('container').setAttribute('style','margin-bottom:30px');")
 	
-	if args.hidePresentation is False:
-		browser.execute_script("document.getElementById('container').setAttribute('style','margin:100px');")
-		browser.execute_script("document.getElementById('container').firstChild.setAttribute('style','height:500px !important');")
-		browser.execute_script("document.getElementById('container').setAttribute('style','padding-top:200px !important');")
+	#if args.hidePresentation is False:
+		#browser.execute_script("document.getElementById('container').setAttribute('style','margin:100px');")
+		#browser.execute_script("document.getElementById('container').firstChild.setAttribute('style','height:500px !important');")
+		#browser.execute_script("document.getElementById('container').setAttribute('style','padding-top:200px !important');")
 	
 
 def create_meeting():
@@ -181,7 +181,7 @@ def stream():
 	#fixed Audio/video not synchronized, reference = https://github.com/aau-zid/BigBlueButton-liveStreaming/issues/100
 	audio_options = '-f pulse -itsoffset 1.5 -i default -ac 2 -c:a aac -b:a 160k -ar 48000'
 	video_options = '-c:v libx264 -x264-params "nal-hrd=vbr" -profile:v high -level:v 4.2 -vf format=yuv420p -b:v 4000k -maxrate 4000k -minrate 2000k -bufsize 8000k -g 60 -preset ultrafast -tune zerolatency'
-	ffmpeg_stream = 'ffmpeg -thread_queue_size 4096 -f x11grab -probesize 10M -draw_mouse 0 -framerate 30 -vsync 1 -s 1920x1080 -i :%d -thread_queue_size 4096 %s -threads 0 %s -f flv -flvflags no_duration_filesize "%s"' % ( 122, audio_options, video_options, args.target)
+	ffmpeg_stream = 'ffmpeg -y -nostats -thread_queue_size 4096 -f x11grab -probesize 10M -draw_mouse 0 -framerate 30 -vsync 1 -s 1920x1080 -i :%d -thread_queue_size 4096 %s -threads 0 %s -f flv -flvflags no_duration_filesize "%s"' % ( 122, audio_options, video_options, args.target)
 
 	ffmpeg_args = shlex.split(ffmpeg_stream)
 	logging.info("streaming meeting...")
