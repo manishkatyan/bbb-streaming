@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   bbb-streamer:
-    #image: manishkatyan/bbb-streaming
+    #image: 
     build: .
     shm_size: '2gb'
     container_name: bbb-streaming
