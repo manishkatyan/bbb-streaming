@@ -20,9 +20,9 @@ Share the streaming URL with your users to view the live streaming of your class
 
 ### What to stream: video, presentation or both
 You can live stream in the following ways:
-* Only video: set `BBB_HIDE_PRESENTATION` to `true` in `docker-compose.xml`.
-* Only presentation: set `BBB_HIDE_PRESENTATION` to `false` in `docker-compose.xml` and don't turn on the video for the presenter. 
-* Both video and presentation: set `BBB_HIDE_PRESENTATION` to `false` in `docker-compose.xml`. The presenter's video will appear above the presentation, as in the default BigBlueButton layout.
+* Only video: set `BBB_HIDE_PRESENTATION` to `true` in `docker-compose.yml`.
+* Only presentation: set `BBB_HIDE_PRESENTATION` to `false` in `docker-compose.yml` and don't turn on the video for the presenter. 
+* Both video and presentation: set `BBB_HIDE_PRESENTATION` to `false` in `docker-compose.yml`. The presenter's video will appear above the presentation, as in the default BigBlueButton layout.
 
 ## Install
 
@@ -45,9 +45,15 @@ chmod +x /usr/local/bin/docker-compose
 
 ### 3. Fetching bbb-streaming
 ```sh
-wget -O docker-compose.yml https://raw.githubusercontent.com/manishkatyan/bbb-streaming/master/examples/docker-compose.yml.example
-# change configuration
+git clone https://github.com/manishkatyan/bbb-streaming.git
+cd bbb-streaming
+
+# change Environment Variable in docker-compose.yml
+
+# Start stream
 docker-compose up -d
+
+# Stop stream 
 docker-compose down
 ``` 
 
@@ -74,9 +80,7 @@ You need to set some environment variables to run the container.
 * BBB_END_INTRO_AT= - end intro after (optional, e.g. 01:00:00 - after one hour)
 * BBB_USER_NAME - the username to join the meeting. (Default: Live)
 * BBB_SHOW_CHAT - shows the chat on the left side of the window (Default: false)
-* TZ - Timezone (Default: Europe/Vienna)
-* BBB_CUSTOM_CSS - Custom CSS to change, for example size of video, using url encoded CSS. URI encode your css here: https://www.urlencoder.org/
-
+* TZ - Timezone (Default: Asia/Kolkata)
 ## Streaming with API-MATE
 ```sh
 # Get API-MATE URL
