@@ -21,7 +21,7 @@ services:
       # meeting title (optional):
       - BBB_MEETING_TITLE=liveStreaming
       # download / save BigBlueButton meeting
-      - BBB_DOWNLOAD_MEETING=true
+      - BBB_DOWNLOAD_MEETING=false
       # play intro file (can be a local file in videodata folder e.g. /video/intro.mp4 or a url of a mediastream e.g. https://my.intro.stream)
       - BBB_INTRO=false
       # begin the intro at position (optional, e.g. 00:00:05)
@@ -31,9 +31,9 @@ services:
       # Media server url:
       - BBB_STREAM_URL=
       # Stream URL for viewers to watch live video:
-      #- BBB_VIEWER_STREAM_URL=
+      - BBB_VIEWER_STREAM_URL=
       # Timezone (default: Europe/Vienna):
-      - TZ=Europe/Madrid
+      - TZ=Asia/Kolkata
       # Hide Presentation - set this as true to show only the video and not the presentation during the webinar
       - BBB_HIDE_PRESENTATION=false
       #Hide public chat -set this to true if you want to show chat during the webinar
