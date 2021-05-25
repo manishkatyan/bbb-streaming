@@ -82,9 +82,9 @@ def bbb_browser():
 	join_url = get_join_url()
 	logging.info(join_url)
 	browser.get(join_url)
-	element = EC.presence_of_element_located((By.XPATH, '//span[contains(@class,"success")]'))
+	element = EC.presence_of_element_located((By.XPATH, '//button[contains(@aria-label,"Play audio")]'))
 	WebDriverWait(browser, selenium_timeout).until(element)
-	browser.find_elements_by_xpath('//span[contains(@class,"success")]')[0].click()
+	browser.find_elements_by_xpath('//button[contains(@aria-label,"Play audio")]')[0].click()
 	
 	element = EC.invisibility_of_element((By.CSS_SELECTOR, '.ReactModal__Overlay'))
 	WebDriverWait(browser, selenium_timeout).until(element)
